@@ -16,7 +16,43 @@ func home(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Fprint(w, `
         <html>
+		<head>
+			<style>
+				body {
+					font-family: Arial, sans-serif;
+					background-color: #1e1e1e;
+					color: white;
+					margin: 0;
+					padding: 20px;
+				}
+				h1 {
+					color: white;
+				}
+				form {
+					margin-bottom: 20px;
+				}
+				input[type="text"] {
+					padding: 10px;
+					width: 300px;
+					border: 1px solid #ccc;
+					border-radius: 4px;
+				}
+				button {
+					padding: 10px 15px;
+					background-color: #4c00ff;
+					color: white;
+					border: none;
+					border-radius: 4px;
+					cursor: pointer;
+				}
+				button:hover {
+					background-color: #0056b3;
+				}
+			</style>
+		</head>
         <body>
+		<div class="container">
+		<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
             <h1>Aaron's morse code converter</h1>
             <form method="GET">
                 <input type="text" name="message">
@@ -24,6 +60,7 @@ func home(w http.ResponseWriter, r *http.Request) {
             </form>
 			<p>your input was: `+input+`</p>
 			<p>your morse code: `+output+`</p>
+		</div>
         </body>
         </html>
     `)
