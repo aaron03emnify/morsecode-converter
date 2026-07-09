@@ -67,6 +67,3 @@ func main() {
 	log.Fatal(http.ListenAndServe(":8080", nil))
 
 }
-
-
-println("Server started at http://localhost:8080")
