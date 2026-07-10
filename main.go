@@ -13,7 +13,7 @@ var morseMap = map[string]string{
 	"K": "-.-", "L": ".-..", "M": "--", "N": "-.", "O": "---",
 	"P": ".--.", "Q": "--.-", "R": ".-.", "S": "...", "T": "-",
 	"U": "..-", "V": "...-", "W": ".--", "X": "-..-", "Y": "-.--",
-	"Z": "--..",
+	"Z": "--..", " ": " ", 
 	"0": "-----", "1": ".----", "2": "..---", "3": "...--",
 	"4": "....-", "5": ".....", "6": "-....", "7": "--...",
 	"8": "---..", "9": "----.",
@@ -71,34 +71,24 @@ func home(w http.ResponseWriter, r *http.Request) {
 	}
 </style>
 </head>
-
 <body>
-
 <div class="container">
-
-	<h1>Aaron's morse code converter</h1>
-
+	<h1>aaron's morse code converter</h1>
 	<form method="GET">
 		<input id="message" type="text" name="message" value="`+input+`">
 		<button type="submit">Convert</button>
 	</form>
-
 	<textarea id="output" readonly>`+output+`</textarea>
-
 	<div>
 		<button type="button" onclick="copyOutput()">Copy</button>
 		<button type="button" onclick="clearFields()">Clear</button>
 	</div>
-
 </div>
-
 <script>
 function copyOutput() {
 	const output = document.getElementById("output");
-
 	if (output.value === "")
 		return;
-
 	navigator.clipboard.writeText(output.value);
 }
 
@@ -107,7 +97,6 @@ function clearFields() {
 	document.getElementById("output").value = "";
 }
 </script>
-
 </body>
 </html>
 `)
