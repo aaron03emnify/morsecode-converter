@@ -76,7 +76,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 
 <div class="container">
 
-	<h1>Aaron's Morse Code Converter</h1>
+	<h1>Aaron's morse code converter</h1>
 
 	<form method="GET">
 		<input id="message" type="text" name="message" value="`+input+`">
