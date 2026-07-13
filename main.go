@@ -87,6 +87,13 @@ func home(w http.ResponseWriter, r *http.Request) {
 		<button type="button" onclick="clearFields()">Clear</button>
 		<button type="button" onclick="playMorse()">Play</button>
 	</div>
+
+	<img
+	src="/pics/bibble.png"
+	alt="bibble"
+	style="width:120px; margin-top:20px;"
+>
+
 </div>
 
 <script>
@@ -179,6 +186,12 @@ func main() {
 	http.Handle("/sounds/",
 		http.StripPrefix("/sounds/",
 			http.FileServer(http.Dir("./sounds")),
+		),
+	)
+
+	http.Handle("/pics/",
+		http.StripPrefix("/pics/",
+			http.FileServer(http.Dir("./pics")),
 		),
 	)
 
