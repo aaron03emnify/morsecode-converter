@@ -1,4 +1,4 @@
-package mai
+package main
 
 import (
 	"fmt"
@@ -74,21 +74,55 @@ func home(w http.ResponseWriter, r *http.Request) {
 <body>
 <div class="container">
 	<h1>aaron's morse code converter</h1>
+
 	<form method="GET">
-		<input id="message" type="text" name="message" value="`+input+`">
+		<input id="message" type="text" name="message" value="` + input + `">
 		<button type="submit">Convert</button>
 	</form>
-	<textarea id="output" readonly>`+output+`</textarea>
+
+	<textarea id="output" readonly>` + output + `</textarea>
+
 	<div>
 		<button type="button" onclick="copyOutput()">Copy</button>
 		<button type="button" onclick="clearFields()">Clear</button>
+		<button type="button" onclick="playMorse()">Play</button>
 	</div>
 </div>
+
 <script>
+const dot = new Audio("/sounds/dot.wav");
+const dash = new Audio("/sounds/dash.wav");
+
+function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function playMorse() {
+	const text = document.getElementById("output").value;
+
+	for (const c of text) {
+		if (c === ".") {
+			const sound = dot.cloneNode();
+			sound.play();
+			await sleep(150);
+		} else if (c === "-") {
+			const sound = dash.cloneNode();
+			sound.play();
+			await sleep(350);
+		} else if (c === " ") {
+			await sleep(250);
+		} else if (c === "/") {
+			await sleep(700);
+		}
+	}
+}
+
 function copyOutput() {
 	const output = document.getElementById("output");
+
 	if (output.value === "")
 		return;
+
 	navigator.clipboard.writeText(output.value);
 }
 
@@ -97,6 +131,7 @@ function clearFields() {
 	document.getElementById("output").value = "";
 }
 </script>
+
 </body>
 </html>
 `)
@@ -141,8 +176,13 @@ func reverseMapping(m map[string]string) map[string]string {
 func main() {
 	http.HandleFunc("/", home)
 
+	http.Handle("/sounds/",
+		http.StripPrefix("/sounds/",
+			http.FileServer(http.Dir("./sounds")),
+		),
+	)
+
 	fmt.Println("Server running at http://localhost:8080")
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
-
 }
