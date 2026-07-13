@@ -1,7 +1,7 @@
 FROM go1.26.4
 WORKDIR /home/aaron/coding/morsecode-converter
 
-COPY morsecode-converter ./go.mod
+COPY /home/aaron/coding ./home/aaron/coding/morsecode-converter
 EXPOSE 8080
 
 RUN useradd app 
