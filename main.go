@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"time"
 	"net/http"
 	"strings"
 )
@@ -195,14 +196,18 @@ func main() {
 		),
 	)
 
+	startTime := time.Now()
+
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {
 			http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 			return
 		}
 
+		elapsed := time.Since(startTime)
+
 		w.Header().Set("Content-Type", "application/json")
-		w.Write([]byte(`{"status":"healthy", "uptime:"}`))
+		fmt.Fprintf(w, `{"status":"healthy","uptime":"%s"}`, elapsed)
 	})
 
 	fmt.Println("Server running at http://localhost:8080")
