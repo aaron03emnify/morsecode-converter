@@ -1,4 +1,4 @@
-package main
+package mai
 
 import (
 	"fmt"
@@ -13,7 +13,7 @@ var morseMap = map[string]string{
 	"K": "-.-", "L": ".-..", "M": "--", "N": "-.", "O": "---",
 	"P": ".--.", "Q": "--.-", "R": ".-.", "S": "...", "T": "-",
 	"U": "..-", "V": "...-", "W": ".--", "X": "-..-", "Y": "-.--",
-	"Z": "--..", " ": " ",
+	"Z": "--..", " ": "/",
 	"0": "-----", "1": ".----", "2": "..---", "3": "...--",
 	"4": "....-", "5": ".....", "6": "-....", "7": "--...",
 	"8": "---..", "9": "----.",
@@ -73,7 +73,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 </head>
 <body>
 <div class="container">
-	<h1>Aaron's morse code converter</h1>
+	<h1>aaron's morse code converter</h1>
 	<form method="GET">
 		<input id="message" type="text" name="message" value="`+input+`">
 		<button type="submit">Convert</button>
