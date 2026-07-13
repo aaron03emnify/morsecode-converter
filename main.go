@@ -195,6 +195,16 @@ func main() {
 		),
 	)
 
+	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write([]byte(`{"status":"healthy", "uptime:"}`))
+	})
+
 	fmt.Println("Server running at http://localhost:8080")
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
