@@ -1,5 +1,5 @@
 FROM go1.26.4
-WORKDIR https://github.com/aaron03emnify/morsecode-converter.git
+WORKDIR /home/aaron/coding/morsecode-converter
 
 COPY morsecode-converter ./go.mod
 EXPOSE 8080
