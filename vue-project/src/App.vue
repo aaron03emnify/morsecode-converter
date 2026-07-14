@@ -1,6 +1,7 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
 import TheWelcome from './components/TheWelcome.vue'
+import './assets/buttons.css'
 </script>
 
 <template>
@@ -8,6 +9,8 @@ import TheWelcome from './components/TheWelcome.vue'
 
     <div class="wrapper">
       <HelloWorld msg="aaron's morse code converter" />
+      <img alt="Vue logo" class="logo" src="/bibble.png" width="125" height="125" />
+      <button class="my-button" @click="handleClick">Click me</button>
     </div>
   </header>
 
