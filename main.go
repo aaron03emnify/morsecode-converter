@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"time"
-	"net/http"
 	"strings"
+	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 var morseMap = map[string]string{
@@ -22,11 +22,13 @@ var morseMap = map[string]string{
 
 var reverseMap = reverseMapping(morseMap)
 
-func home(w http.ResponseWriter, r *http.Request) {
-	input := r.FormValue("message")
+func home(c *gin.Context) {
+	input := c.Query("message")
 	output := morse(input)
 
-	fmt.Fprint(w, `
+	c.Header("Content-Type", "text/html; charset=utf-8")
+
+	c.String(200, `
 <html>
 <head>
 <style>
@@ -73,15 +75,16 @@ func home(w http.ResponseWriter, r *http.Request) {
 </style>
 </head>
 <body>
+
 <div class="container">
 	<h1>aaron's morse code converter</h1>
 
 	<form method="GET">
-		<input id="message" type="text" name="message" value="` + input + `">
+		<input id="message" type="text" name="message" value="`+input+`">
 		<button type="submit">Convert</button>
 	</form>
 
-	<textarea id="output" readonly>` + output + `</textarea>
+	<textarea id="output" readonly>`+output+`</textarea>
 
 	<div>
 		<button type="button" onclick="copyOutput()">Copy</button>
@@ -90,10 +93,10 @@ func home(w http.ResponseWriter, r *http.Request) {
 	</div>
 
 	<img
-	src="/pics/bibble.png"
-	alt="bibble"
-	style="width:120px; margin-top:20px;"
->
+		src="/pics/bibble.png"
+		alt="bibble"
+		style="width:120px; margin-top:20px;"
+	>
 
 </div>
 
@@ -182,35 +185,31 @@ func reverseMapping(m map[string]string) map[string]string {
 }
 
 func main() {
-	http.HandleFunc("/", home)
-
-	http.Handle("/sounds/",
-		http.StripPrefix("/sounds/",
-			http.FileServer(http.Dir("./sounds")),
-		),
-	)
-
-	http.Handle("/pics/",
-		http.StripPrefix("/pics/",
-			http.FileServer(http.Dir("./pics")),
-		),
-	)
+	router := gin.Default()
 
 	startTime := time.Now()
 
-	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != http.MethodGet {
-			http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
-			return
-		}
+	router.GET("/", home)
 
-		elapsed := time.Since(startTime)
-
-		w.Header().Set("Content-Type", "application/json")
-		fmt.Fprintf(w, `{"status":"healthy","uptime":"%s"}`, elapsed)
+	router.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
 	})
+
+	router.GET("/health", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"status": "healthy",
+			"uptime": time.Since(startTime).String(),
+		})
+	})
+
+	router.Static("/sounds", "./sounds")
+	router.Static("/pics", "./pics")
 
 	fmt.Println("Server running at http://localhost:8080")
 
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	if err := router.Run(":8080"); err != nil {
+		panic(err)
+	}
 }
