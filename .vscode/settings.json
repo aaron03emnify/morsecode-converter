@@ -1,0 +1,6 @@
+{
+    "editor.overtypeCursorStyle": "line",
+    "editor.cursorBlinking": "expand",
+    "terminal.integrated.cursorStyle": "line",
+    "terminal.integrated.cursorStyleInactive": "line"
+}
