@@ -198,17 +198,21 @@ func main() {
 		})
 	})
 
-	router.GET("/morse-it", func(c *gin.Context) {
-    input := c.Query("input")
+	router.POST("/morse-it", func(c *gin.Context) {
+    var body struct {
+        Input string `json:"input"`
+    }
+
+    c.BindJSON(&body)
 
     c.JSON(200, gin.H{
-        "input":  input,
-        "output": morse(input),
+        "input":  body.Input,
+        "output": morse(body.Input),
     })
 })
 
-	router.Static("/sounds", "./sounds")
-	router.Static("/pics", "./pics")
+	router.Static("/sounds", "../frontend/sounds")
+	router.Static("/pics", "../frontend/pics")
 
 	fmt.Println("Server running at http://localhost:8080")
 
