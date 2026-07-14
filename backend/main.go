@@ -198,6 +198,15 @@ func main() {
 		})
 	})
 
+	router.GET("/morse-it", func(c *gin.Context) {
+    input := c.Query("input")
+
+    c.JSON(200, gin.H{
+        "input":  input,
+        "output": morse(input),
+    })
+})
+
 	router.Static("/sounds", "./sounds")
 	router.Static("/pics", "./pics")
 
