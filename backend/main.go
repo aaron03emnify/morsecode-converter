@@ -199,17 +199,17 @@ func main() {
 	})
 
 	router.POST("/morse-it", func(c *gin.Context) {
-    var body struct {
-        Input string `json:"input"`
-    }
+		var body struct {
+			Input string `json:"input"`
+		}
 
-    c.BindJSON(&body)
+		c.BindJSON(&body)
 
-    c.JSON(200, gin.H{
-        "input":  body.Input,
-        "output": morse(body.Input),
-    })
-})
+		c.JSON(200, gin.H{
+			"input":  body.Input,
+			"output": morse(body.Input),
+		})
+	})
 
 	router.Static("/sounds", "../frontend/sounds")
 	router.Static("/pics", "../frontend/pics")
