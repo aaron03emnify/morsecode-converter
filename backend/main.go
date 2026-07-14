@@ -95,7 +95,7 @@ func home(c *gin.Context) {
 	<img
 		src="/pics/bibble.png"
 		alt="bibble"
-		style="width:120px; margin-top:20px;"
+		style="width:100px; margin-top:20px;"
 	>
 
 </div>
