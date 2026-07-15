@@ -122,7 +122,7 @@ async function handlePlay() {
         class="logo"
       />
 
-      <h1>Aaron's Morse Code Converter</h1>
+      <h1 class="animated-title">Aaron's Morse Code Converter</h1>
 
       <input
         v-model="message"
@@ -232,4 +232,33 @@ h1 {
   height: 120px;
   resize: none;
 }
+
+.animated-title {
+  background: linear-gradient(
+    120deg,
+    #929292 0%,
+    #929292 40%,
+    #ffffff 50%,
+    #929292 60%,
+    #929292 100%
+  );
+
+  background-size: 200% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+
+  animation: shine 3s linear infinite;
+}
+
+@keyframes shine {
+  from {
+    background-position: 200% center;
+  }
+
+  to {
+    background-position: -200% center;
+  }
+}
+
 </style>
