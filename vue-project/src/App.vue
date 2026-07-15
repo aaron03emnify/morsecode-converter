@@ -1,94 +1,201 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-import './assets/buttons.css'
+import { ref } from "vue"
+
+const message = ref("")
+const output = ref("")
+
+const dot = new Audio("/sounds/dot.wav")
+const dash = new Audio("/sounds/dash.wav")
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+async function handleConvert() {
+  if (!message.value.trim()) {
+    output.value = ""
+    return
+  }
+
+  try {
+    const response = await fetch("http://localhost:8080/morse-it", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        input: message.value,
+      }),
+    })
+
+    const data = await response.json()
+    output.value = data.output
+  } catch (err) {
+    console.error(err)
+    output.value = "Unable to connect to API."
+  }
+}
+
+function handleCopy() {
+  if (!output.value) return
+  navigator.clipboard.writeText(output.value)
+}
+
+function handleClear() {
+  message.value = ""
+  output.value = ""
+}
+
+async function handlePlay() {
+  for (const c of output.value) {
+    if (c === ".") {
+      dot.cloneNode().play()
+      await sleep(150)
+    } else if (c === "-") {
+      dash.cloneNode().play()
+      await sleep(350)
+    } else if (c === " ") {
+      await sleep(250)
+    } else if (c === "/") {
+      await sleep(700)
+    }
+  }
+}
 </script>
 
 <template>
   <div id="app">
-    <header>
-      <div class="header-wrapper">
-        <div class="title-wrapper">
-          <img
-            alt="Logo"
-            class="logo"
-            src="/bibble.png"
-            width="100"
-            height="100"
-          />
+    <div class="container">
+      <img
+        src="/bibble.png"
+        alt="Bibble"
+        class="logo"
+      />
 
-          <HelloWorld
-            class="header-title"
-            msg="aaron's morse code converter"
-          />
-        </div>
+      <h1>Aaron's Morse Code Converter</h1>
 
-        <div class="button-container">
-          <button class="copy-button" @click="handleClick">Copy</button>
-          <button class="clear-button" @click="handleClear">Clear</button>
-          <button class="play-button" @click="handleConvert">Play</button>
-        </div>
+      <input
+        v-model="message"
+        class="input"
+        placeholder="Enter text or Morse code..."
+        @keyup.enter="handleConvert"
+      />
+
+      <button
+        class="convert-button"
+        @click="handleConvert"
+      >
+        Convert
+      </button>
+
+      <textarea
+        v-model="output"
+        class="output"
+        readonly
+        placeholder="Output..."
+      ></textarea>
+
+      <div class="button-container">
+        <button
+          class="copy-button"
+          @click="handleCopy"
+        >
+          Copy
+        </button>
+
+        <button
+          class="clear-button"
+          @click="handleClear"
+        >
+          Clear
+        </button>
+
+        <button
+          class="play-button"
+          @click="handlePlay"
+        >
+          Play
+        </button>
       </div>
-    </header>
-
-    <main>
-      <TheWelcome />
-    </main>
+    </div>
   </div>
 </template>
 
 <style>
+html,
+body,
 #app {
-  min-height: 100vh;
   margin: 0;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: var(--text-color);
-  text-align: center;
-
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+  height: 100%;
 }
 
-header {
-  flex: 1;
+body {
+  background: #1e1e1e;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#app {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.header-wrapper {
+.container {
+  width: 500px;
+  max-width: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
-}
-
-.title-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.header-title {
-  font-size: 2rem;
+  gap: 20px;
 }
 
 .logo {
   width: 100px;
-  height: 100px;
-  object-fit: contain;
+}
+
+h1 {
+  margin: 0;
+}
+
+.input,
+.output {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+}
+
+.output {
+  height: 120px;
+  resize: none;
+}
+
+.convert-button,
+.copy-button,
+.clear-button,
+.play-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #5d04f7;
+  color: white;
+  font-size: 15px;
+}
+
+.convert-button:hover,
+.copy-button:hover,
+.clear-button:hover,
+.play-button:hover {
+  background: #5005ab;
 }
 
 .button-container {
   display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-main {
-  padding: 2rem;
+  gap: 12px;
 }
 </style>
