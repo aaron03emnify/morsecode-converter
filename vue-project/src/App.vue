@@ -5,65 +5,90 @@ import './assets/buttons.css'
 </script>
 
 <template>
-  <header class="header">
-    <div class="header-wrapper">
-      <HelloWorld class='header-title' msg="aaron's morse code converter" />
-      <img alt="Vue logo" class="logo" src="/bibble.png" width="100" height="100" />
-      <div class="button-container">
-        <button class="copy-button" @click="handleClick">Copy</button>
-        <button class="clear-button" @click="handleClear">Clear</button>
-        <button class="play-button" @click="handleConvert">Play</button>
-      </div>
-    </div>
-  </header>
+  <div id="app">
+    <header>
+      <div class="header-wrapper">
+        <div class="title-wrapper">
+          <img
+            alt="Logo"
+            class="logo"
+            src="/bibble.png"
+            width="100"
+            height="100"
+          />
 
-  <main>
-    <TheWelcome />
-  </main>
+          <HelloWorld
+            class="header-title"
+            msg="aaron's morse code converter"
+          />
+        </div>
+
+        <div class="button-container">
+          <button class="copy-button" @click="handleClick">Copy</button>
+          <button class="clear-button" @click="handleClear">Clear</button>
+          <button class="play-button" @click="handleConvert">Play</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <TheWelcome />
+    </main>
+  </div>
 </template>
 
 <style>
-
 #app {
+  min-height: 100vh;
+  margin: 0;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  height: 100vh;
   color: var(--text-color);
-  margin-top: 60px;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
 }
 
 header {
-  line-height: 1.3;
+  flex: 1;
   display: flex;
-  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-wrapper {
+  display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 2rem;
+}
+
+.title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-title {
+  font-size: 2rem;
 }
 
 .logo {
-  display: block;
-  margin: 0 auto 2rem;
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+.button-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .title-wrapper {
-    display: flex;
-    place-items: flex-start;
-    align-items: center;
-    flex-wrap: wrap;
-  }
+main {
+  padding: 2rem;
 }
 </style>
