@@ -29,11 +29,17 @@ async function handleConvert() {
       }),
     })
 
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`)
+    }
+
     const data = await response.json()
+    console.log(data)
+
     output.value = data.output
   } catch (err) {
     console.error(err)
-    output.value = "Unable to connect to API."
+    output.value = err.message
   }
 }
 
@@ -134,7 +140,7 @@ body,
 body {
   background: #1e1e1e;
   color: white;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family:'Manrope', Arial, Helvetica, sans-serif;
 }
 
 #app {
@@ -166,8 +172,22 @@ h1 {
   box-sizing: border-box;
   padding: 12px;
   border-radius: 8px;
-  border: none;
+  border: 1px solid #444;
+  background-color: #2b2b2b;
+  color: white;
   font-size: 16px;
+  outline: none;
+}
+
+.input::placeholder,
+.output::placeholder {
+  color: #999;
+}
+
+.input:focus,
+.output:focus {
+  border-color: #6977ef;
+  box-shadow: 0 0 8px rgba(105, 119, 239, 0.4);
 }
 
 .output {
@@ -175,24 +195,9 @@ h1 {
   resize: none;
 }
 
-.convert-button,
-.copy-button,
-.clear-button,
-.play-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background: #5d04f7;
-  color: white;
-  font-size: 15px;
-}
-
-.convert-button:hover,
-.copy-button:hover,
-.clear-button:hover,
-.play-button:hover {
-  background: #5005ab;
+.output {
+  height: 120px;
+  resize: none;
 }
 
 .button-container {

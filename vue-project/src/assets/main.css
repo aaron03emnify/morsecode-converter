@@ -12,7 +12,14 @@ body {
   background: var(--color-background);
   color: var(--color-text);
   font-weight: normal;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Manrope', Avenir, Helvetica, Arial, sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
 }
 
 a,
