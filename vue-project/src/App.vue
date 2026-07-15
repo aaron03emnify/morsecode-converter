@@ -5,6 +5,11 @@ import { ref } from "vue"
 const message = ref("")
 const output = ref("")
 
+const notificationText = ref("")
+const showNotification = ref(false)
+
+let notificationTimer
+
 const dot = new Audio("/sounds/dot.wav")
 const dash = new Audio("/sounds/dash.wav")
 
@@ -12,9 +17,21 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
+function showMessage(text) {
+  notificationText.value = text
+  showNotification.value = true
+
+  clearTimeout(notificationTimer)
+
+  notificationTimer = setTimeout(() => {
+    showNotification.value = false
+  }, 1500)
+}
+
 async function handleConvert() {
   if (!message.value.trim()) {
     output.value = ""
+    showMessage("Nothing to convert")
     return
   }
 
@@ -34,26 +51,42 @@ async function handleConvert() {
     }
 
     const data = await response.json()
-    console.log(data)
 
     output.value = data.output
+    showMessage("Converted!")
   } catch (err) {
     console.error(err)
     output.value = err.message
+    showMessage("Error!")
   }
 }
 
-function handleCopy() {
-  if (!output.value) return
-  navigator.clipboard.writeText(output.value)
+async function handleCopy() {
+  if (!output.value) {
+    showMessage("Nothing to copy")
+    return
+  }
+
+  await navigator.clipboard.writeText(output.value)
+
+  showMessage("Copied!")
 }
 
 function handleClear() {
   message.value = ""
   output.value = ""
+
+  showMessage("Cleared!")
 }
 
 async function handlePlay() {
+  if (!output.value) {
+    showMessage("Nothing to play")
+    return
+  }
+
+  showMessage("Playing...")
+
   for (const c of output.value) {
     if (c === ".") {
       dot.cloneNode().play()
@@ -72,6 +105,16 @@ async function handlePlay() {
 
 <template>
   <div id="app">
+
+    <Transition name="notification">
+      <div
+        v-if="showNotification"
+        class="notification"
+      >
+        {{ notificationText }}
+      </div>
+    </Transition>
+
     <div class="container">
       <img
         src="/bibble.png"
@@ -79,7 +122,7 @@ async function handlePlay() {
         class="logo"
       />
 
-      <h1>Aaron's morse code converter</h1>
+      <h1>Aaron's Morse Code Converter</h1>
 
       <input
         v-model="message"
@@ -171,6 +214,7 @@ h1 {
   color: white;
   font-size: 16px;
   outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .input::placeholder,
@@ -180,22 +224,12 @@ h1 {
 
 .input:focus,
 .output:focus {
-  border-color: #6977ef;
-  box-shadow: 0 0 8px rgba(105, 119, 239, 0.4);
+  border-color: #6a49ee;
+  box-shadow: 0 0 8px rgba(106, 73, 238, 0.4);
 }
 
 .output {
   height: 120px;
   resize: none;
-}
-
-.output {
-  height: 120px;
-  resize: none;
-}
-
-.button-container {
-  display: flex;
-  gap: 12px;
 }
 </style>
