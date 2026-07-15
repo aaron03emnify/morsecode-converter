@@ -5,6 +5,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -186,6 +187,8 @@ func reverseMapping(m map[string]string) map[string]string {
 
 func main() {
 	router := gin.Default()
+
+	router.Use(cors.Default())
 
 	startTime := time.Now()
 
