@@ -1,38 +1,38 @@
 <script setup>
-import "./assets/buttons.css"
-import { ref } from "vue"
+import "./assets/buttons.css";
+import { ref } from "vue";
 
-const message = ref("")
-const output = ref("")
+const message = ref("");
+const output = ref("");
 
-const notificationText = ref("")
-const showNotification = ref(false)
+const notificationText = ref("");
+const showNotification = ref(false);
 
-let notificationTimer
+let notificationTimer;
 
-const dot = new Audio("/sounds/dot.wav")
-const dash = new Audio("/sounds/dash.wav")
+const dot = new Audio("/sounds/dot.wav");
+const dash = new Audio("/sounds/dash.wav");
 
 function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function showMessage(text) {
-  notificationText.value = text
-  showNotification.value = true
+  notificationText.value = text;
+  showNotification.value = true;
 
-  clearTimeout(notificationTimer)
+  clearTimeout(notificationTimer);
 
   notificationTimer = setTimeout(() => {
-    showNotification.value = false
-  }, 1500)
+    showNotification.value = false;
+  }, 1500);
 }
 
 async function handleConvert() {
   if (!message.value.trim()) {
-    output.value = ""
-    showMessage("Nothing to convert")
-    return
+    output.value = "";
+    showMessage("Nothing to convert");
+    return;
   }
 
   try {
@@ -44,60 +44,60 @@ async function handleConvert() {
       body: JSON.stringify({
         input: message.value,
       }),
-    })
+    });
 
     if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`)
+      throw new Error(`HTTP ${response.status}`);
     }
 
-    const data = await response.json()
+    const data = await response.json();
 
-    output.value = data.output
-    showMessage("Converted!")
+    output.value = data.output;
+    showMessage("Converted!");
   } catch (err) {
-    console.error(err)
-    output.value = err.message
-    showMessage("Error!")
+    console.error(err);
+    output.value = err.message;
+    showMessage("Error!");
   }
 }
 
 async function handleCopy() {
   if (!output.value) {
-    showMessage("Nothing to copy")
-    return
+    showMessage("Nothing to copy");
+    return;
   }
 
-  await navigator.clipboard.writeText(output.value)
+  await navigator.clipboard.writeText(output.value);
 
-  showMessage("Copied!")
+  showMessage("Copied!");
 }
 
 function handleClear() {
-  message.value = ""
-  output.value = ""
+  message.value = "";
+  output.value = "";
 
-  showMessage("Cleared!")
+  showMessage("Cleared!");
 }
 
 async function handlePlay() {
   if (!output.value) {
-    showMessage("Nothing to play")
-    return
+    showMessage("Nothing to play");
+    return;
   }
 
-  showMessage("Playing...")
+  showMessage("Playing...");
 
   for (const c of output.value) {
     if (c === ".") {
-      dot.cloneNode().play()
-      await sleep(150)
+      dot.cloneNode().play();
+      await sleep(150);
     } else if (c === "-") {
-      dash.cloneNode().play()
-      await sleep(350)
+      dash.cloneNode().play();
+      await sleep(350);
     } else if (c === " ") {
-      await sleep(250)
+      await sleep(250);
     } else if (c === "/") {
-      await sleep(700)
+      await sleep(700);
     }
   }
 }
@@ -105,22 +105,14 @@ async function handlePlay() {
 
 <template>
   <div id="app">
-
     <Transition name="notification">
-      <div
-        v-if="showNotification"
-        class="notification"
-      >
+      <div v-if="showNotification" class="notification">
         {{ notificationText }}
       </div>
     </Transition>
 
     <div class="container">
-      <img
-        src="/bibble.png"
-        alt="Bibble"
-        class="logo"
-      />
+      <img src="/bibble.png" alt="Bibble" class="logo" />
 
       <h1 class="animated-title">Aaron's Morse Code Converter</h1>
 
@@ -131,12 +123,7 @@ async function handlePlay() {
         @keyup.enter="handleConvert"
       />
 
-      <button
-        class="convert-button"
-        @click="handleConvert"
-      >
-        Convert
-      </button>
+      <button class="convert-button" @click="handleConvert">Convert</button>
 
       <textarea
         v-model="output"
@@ -146,26 +133,11 @@ async function handlePlay() {
       ></textarea>
 
       <div class="button-container">
-        <button
-          class="copy-button"
-          @click="handleCopy"
-        >
-          Copy
-        </button>
+        <button class="copy-button" @click="handleCopy">Copy</button>
 
-        <button
-          class="clear-button"
-          @click="handleClear"
-        >
-          Clear
-        </button>
+        <button class="clear-button" @click="handleClear">Clear</button>
 
-        <button
-          class="play-button"
-          @click="handlePlay"
-        >
-          Play
-        </button>
+        <button class="play-button" @click="handlePlay">Play</button>
       </div>
     </div>
   </div>
@@ -214,7 +186,9 @@ h1 {
   color: white;
   font-size: 16px;
   outline: none;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .input::placeholder,
@@ -260,5 +234,4 @@ h1 {
     background-position: -200% center;
   }
 }
-
 </style>

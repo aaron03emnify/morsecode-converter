@@ -1,4 +1,4 @@
-@import './base.css';
+@import "./base.css";
 
 html,
 body,
@@ -14,7 +14,7 @@ body {
   font-weight: normal;
   background: #1e1e1e;
   color: white;
-  font-family: 'Manrope', Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Manrope", Avenir, Helvetica, Arial, sans-serif;
   animation: fadeIn 0.5s ease-in-out;
 }
 
