@@ -12,7 +12,20 @@ body {
   background: var(--color-background);
   color: var(--color-text);
   font-weight: normal;
+  background: #1e1e1e;
+  color: white;
   font-family: 'Manrope', Avenir, Helvetica, Arial, sans-serif;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 button,
@@ -20,14 +33,6 @@ input,
 select,
 textarea {
   font-family: inherit;
-}
-
-a,
-.green {
-  text-decoration: none;
-  color: white;
-  transition: 0.4s;
-  padding: 3px;
 }
 
 @media (hover: hover) {

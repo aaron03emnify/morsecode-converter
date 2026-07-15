@@ -137,12 +137,6 @@ body,
   height: 100%;
 }
 
-body {
-  background: #1e1e1e;
-  color: white;
-  font-family:'Manrope', Arial, Helvetica, sans-serif;
-}
-
 #app {
   display: flex;
   justify-content: center;
