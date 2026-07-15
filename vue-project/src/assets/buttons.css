@@ -37,8 +37,6 @@
   flex-wrap: wrap;
 }
 
-/* Copy notification */
-
 .notification {
   position: fixed;
   top: 20px;
