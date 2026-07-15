@@ -2,7 +2,7 @@
 .clear-button,
 .play-button,
 .convert-button {
-    background-color: #6977ef;
+    background-color: #7e89efe2;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -16,7 +16,7 @@
 .clear-button:hover,
 .play-button:hover,
 .convert-button:hover {
-    background-color: #515bb9;
+    background-color: #4f59a2cc;
     transform: scale(1.05);
 }
 

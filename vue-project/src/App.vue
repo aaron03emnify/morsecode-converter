@@ -79,7 +79,7 @@ async function handlePlay() {
         class="logo"
       />
 
-      <h1>Aaron's Morse Code Converter</h1>
+      <h1>Aaron's morse code converter</h1>
 
       <input
         v-model="message"
