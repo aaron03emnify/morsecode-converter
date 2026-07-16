@@ -220,7 +220,7 @@ h1 {
   background-size: 200% auto;
   color: transparent;
   background-clip: text;
-  animation: shine 7s linear infinite;
+  animation: shine 6s linear infinite;
 }
 
 @keyframes shine {
