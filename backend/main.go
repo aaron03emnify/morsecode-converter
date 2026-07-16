@@ -92,13 +92,6 @@ func home(c *gin.Context) {
 		<button type="button" onclick="clearFields()">Clear</button>
 		<button type="button" onclick="playMorse()">Play</button>
 	</div>
-
-	<img
-		src="/pics/bibble.png"
-		alt="bibble"
-		style="width:100px; margin-top:20px;"
-	>
-
 </div>
 
 <script>

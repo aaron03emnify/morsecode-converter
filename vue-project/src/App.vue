@@ -114,12 +114,12 @@ async function handlePlay() {
     <div class="container">
       <img src="/bibble.png" alt="Bibble" class="logo" />
 
-      <h1 class="animated-title">Aaron's Morse Code Converter</h1>
+      <h1 class="animated-title">Aaron's morse code converter</h1>
 
       <input
         v-model="message"
         class="input"
-        placeholder="Enter text or Morse code..."
+        placeholder="Enter text or morse code..."
         @keyup.enter="handleConvert"
       />
 
