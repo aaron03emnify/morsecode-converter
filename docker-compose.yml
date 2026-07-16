@@ -1,12 +1,12 @@
 services:
   frontend:
-    image: morse-vue
+    image: vue-morse
     build: vue-project/Dockerfile
     ports:
     - "5173:5173"
 
   backend:
-    image: morse-backend
+    image: backend-morse
     build: backend/Dockerfile
     ports:
     - "8080:8080"
